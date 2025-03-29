@@ -178,8 +178,8 @@ void startCameraServer(){
 void setup() {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); //disable brownout detector
  
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
+  Serial.begin(9600);
+  // Serial.setDebugOutput(true);
   
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
@@ -200,16 +200,16 @@ void setup() {
   config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 4000000;
+  config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG; 
   
   if(psramFound()){
-    config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 24;
-    config.fb_count = 1;
+    config.frame_size = FRAMESIZE_UXGA;
+    config.jpeg_quality = 10;
+    config.fb_count = 2;
   } else {
     config.frame_size = FRAMESIZE_SVGA;
-    config.jpeg_quality = 24;
+    config.jpeg_quality = 12;
     config.fb_count = 1;
   }
   
@@ -228,8 +228,6 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
   
-  sensor_t * s = esp_camera_sensor_get();
-  //s->set_framesize(s, FRAMESIZE_QQVGA);
   Serial.print("Camera Stream Ready! Go to: http://");
   Serial.print(WiFi.localIP());
   
