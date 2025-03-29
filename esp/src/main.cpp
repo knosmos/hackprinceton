@@ -63,6 +63,7 @@ void setup() {
     tft.setRotation(0); // Set rotation if needed
     scr = (uint16_t*)b.createSprite(240, 240);
     servo.attach(12);
+    servo.write(30);
     // b.fillScreen(WHITE); // Clear the screen with white color
     // b.setTextColor(BLACK); // Set text color to black
     // b.setTextSize(10); // Set text size
@@ -95,10 +96,6 @@ void setup() {
 char c = '1';
 int servoState = 0;
 void loop() {
-    servo.write(servoState);
-    servoState = 90 - servoState;
-    delay(1000);
-
     // b.fillScreen(BLUE); // Clear the screen with white color
     // Serial.println("sleep_1");
     // b.drawBitmap(88, 88, epd_bitmap_sleep_1, 64, 64, WHITE); // Draw the bitmap at (0, 0)
@@ -111,6 +108,7 @@ void loop() {
     // read from serial
     if (Serial.available()) {
         c = Serial.read();
+        servo.write(30);
     }
 
     if (c == '1') {
@@ -140,10 +138,12 @@ void loop() {
         b.fillScreen(TFT_BLUE);
         b.drawBitmap(0, 0, epd_bitmap_resized_annoyed_1, 240, 240, TFT_WHITE);
         b.pushSprite(0, 0);
+        servo.write(60);
         delay(200);
         b.fillScreen(TFT_BLUE);
         b.drawBitmap(0, 0, epd_bitmap_resized_annoyed_2, 240, 240, TFT_WHITE);
         b.pushSprite(0, 0);
+        servo.write(0);
         delay(200);
     }
     else if (c == '4') {
@@ -151,10 +151,12 @@ void loop() {
         b.fillScreen(TFT_BLUE);
         b.drawBitmap(0, 0, epd_bitmap_resized_touchgrass_1, 240, 240, TFT_WHITE);
         b.pushSprite(0, 0);
+        servo.write(60);
         delay(200);
         b.fillScreen(TFT_BLUE);
         b.drawBitmap(0, 0, epd_bitmap_resized_touchgrass_2, 240, 240, TFT_WHITE);
         b.pushSprite(0, 0);
+        servo.write(0);
         delay(200);
     }
     else if (c == '5') {
