@@ -1,15 +1,17 @@
 #include <Arduino.h>
 #include <pgmspace.h> // For PROGMEM support
-#include <Adafruit_GFX.h> // Include the Adafruit GFX library
-#include <Adafruit_GC9A01A.h> // Include the Adafruit GC9A1 library
+#include <TFT_eSPI.h> // Include the TFT_eSPI library for display control
+// #include <Adafruit_GFX.h> // Include the Adafruit GFX library
+// #include <Adafruit_GC9A01A.h> // Include the Adafruit GC9A1 library
 #include <SPI.h> // Include SPI library for communication with the display
 
 // Adafruit_GC9A01A::Adafruit_GC9A01A(int8_t cs, int8_t dc, int8_t mosi,
 //     int8_t sclk, int8_t rst, int8_t miso)
+// 15, 2, 13, 14, -1, -1
 
 #define TFT_CS   15 // Chip select pin
 #define TFT_DC   2  // Data/Command pin
-Adafruit_GC9A01A b(15, 2, 13, 14, -1, -1);
+TFT_eSPI b = TFT_eSPI();
 
 // 'sleep_1', 240x240px
 // 'sleep_1', 64x64px
@@ -105,29 +107,29 @@ const unsigned char* epd_bitmap_allArray[2] = {
 uint16_t *buffer;
 uint16_t _width, _height;
 
-class Buffer :public Adafruit_GFX {
-public:
-    Buffer(int16_t w, int16_t h) : Adafruit_GFX(w, h) {
-        _width = w;
-        _height = h;
-        buffer = (uint16_t *)malloc(w * h * sizeof(uint16_t));
-        memset(buffer, 0, w * h * sizeof(uint16_t));
-    }
+// class Buffer :public Adafruit_GFX {
+// public:
+//     Buffer(int16_t w, int16_t h) : Adafruit_GFX(w, h) {
+//         _width = w;
+//         _height = h;
+//         buffer = (uint16_t *)malloc(w * h * sizeof(uint16_t));
+//         memset(buffer, 0, w * h * sizeof(uint16_t));
+//     }
 
-    ~Buffer() {
-        free(buffer);
-    }
+//     ~Buffer() {
+//         free(buffer);
+//     }
 
-    void drawPixel(int16_t x, int16_t y, uint16_t color) {
-        if ((x >= 0) && (x < _width) && (y >= 0) && (y < _height)) {
-            buffer[x + y * _width] = color;
-        }
-    }
+//     void drawPixel(int16_t x, int16_t y, uint16_t color) {
+//         if ((x >= 0) && (x < _width) && (y >= 0) && (y < _height)) {
+//             buffer[x + y * _width] = color;
+//         }
+//     }
 
-    uint16_t* getBuffer() {
-        return buffer;
-    }
-};
+//     uint16_t* getBuffer() {
+//         return buffer;
+//     }
+// };
 
 void setup() {
     Serial.begin(115200);
@@ -173,10 +175,34 @@ void setup() {
 
 void loop() {
     // Main loop code goes here (not provided in the original code)
+    b.fillScreen(WHITE); // Clear the screen with white color
     Serial.println("sleep_1");
-    b.drawBitmap(88, 88, epd_bitmap_sleep_1, 64, 64, WHITE); // Draw the bitmap at (0, 0)
+    b.drawBitmap(88, 88, epd_bitmap_sleep_1, 64, 64, BLUE); // Draw the bitmap at (0, 0)
     delay(100); // Just a delay for demonstration purposes
     Serial.println("sleep_2");
     b.drawBitmap(88, 88, epd_bitmap_sleep_2, 64, 64, BLUE); // Draw the bitmap at (0, 0)
     delay(100); // Just a delay for demonstration purposes
+    
+    // read from serial
+    if (Serial.available()) {
+        b.fillScreen(BLUE); // Clear the screen with white color
+        char c = Serial.read();
+        if (c == '1') {
+            Serial.println("sleeping");
+            b.drawBitmap(88, 88, epd_bitmap_sleep_1, 64, 64, WHITE); // Draw the bitmap at (0, 0)
+        }
+        else if (c == '2') {
+            Serial.println("awake");
+            b.drawBitmap(88, 88, epd_bitmap_sleep_2, 64, 64, WHITE); // Draw the bitmap at (0, 0)
+        }
+        else if (c == '3') {
+            Serial.println("annoyed_1");
+        }
+        else if (c == '4') {
+            Serial.println("annoyed_2");
+        }
+        else if (c == '5') {
+            Serial.println("dead");
+        }
+    }
 }
