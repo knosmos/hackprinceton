@@ -1,4 +1,4 @@
-from posture_detection.features import parameterize_ml
+from posture_detection.features import compute_ml_features_from_image
 import os
 import numpy as np
 
@@ -15,7 +15,7 @@ for img_name in os.listdir(DATA_PATH):
     out_path = DATA_PATH + "/out_" + img_name[4:7] + ".txt"
 
     # Handle input
-    X.append(parameterize_ml(img_path))
+    X.append(compute_ml_features_from_image(img_path))
 
     # Handle output
     with open(out_path, "r") as f:

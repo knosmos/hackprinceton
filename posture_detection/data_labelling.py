@@ -44,10 +44,10 @@ class WebcamLabeler:
             messagebox.showerror("Bad label")
             return
     
-        # Create the id
+        # Get the id (find the MEX)
         seen = set()
         for file in os.listdir(SAVE_DIR):
-            # img_000.jpg
+            # Ex: img_000.jpg
             seen.add(int(file[4:7]))
         
         id = 0
@@ -58,7 +58,7 @@ class WebcamLabeler:
         while len(id) < 3:
             id = "0" + id
 
-        # Save image
+        # Save imageand label
         img_name = f"img_{id}.png"
         img_path = os.path.join(SAVE_DIR, img_name)
 
