@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include <pgmspace.h> // For PROGMEM support
-#include <TFT_eSPI.h> // Include the TFT_eSPI library for display control
+#include <TFT_eSPI.h> // Fast ESP32 TFT library
 // #include <Adafruit_GFX.h> // Include the Adafruit GFX library
 // #include <Adafruit_GC9A01A.h> // Include the Adafruit GC9A1 library
+#include <ESP32Servo.h> // Servo interfacing library
 #include <SPI.h> // Include SPI library for communication with the display
 #include <bitmaps.h>
 
@@ -54,11 +55,14 @@ uint16_t _width, _height;
 //     }
 // };
 
+Servo servo;
+
 void setup() {
     Serial.begin(115200);
     tft.begin();
     tft.setRotation(0); // Set rotation if needed
     scr = (uint16_t*)b.createSprite(240, 240);
+    servo.attach(12);
     // b.fillScreen(WHITE); // Clear the screen with white color
     // b.setTextColor(BLACK); // Set text color to black
     // b.setTextSize(10); // Set text size
@@ -89,7 +93,12 @@ void setup() {
 }
 
 char c = '1';
+int servoState = 0;
 void loop() {
+    servo.write(servoState);
+    servoState = 90 - servoState;
+    delay(1000);
+
     // b.fillScreen(BLUE); // Clear the screen with white color
     // Serial.println("sleep_1");
     // b.drawBitmap(88, 88, epd_bitmap_sleep_1, 64, 64, WHITE); // Draw the bitmap at (0, 0)
