@@ -5,15 +5,13 @@ import numpy as np
 
 def calculate_posture_values(image):
     landmarks = get_landmarks(image)
+
+    # No visibility
+    if landmarks is None:
+        return None 
+    
     heuristics = calculate_heuristic_info(landmarks)
     features = compute_ml_features_from_landmarks(landmarks)
-
-    # If eyes aren't visible then return none
-    left_eye = landmarks[mp.solutions.pose.PoseLandmark.LEFT_EYE.value]
-    right_eye = landmarks[mp.solutions.pose.PoseLandmark.RIGHT_EYE.value]
-
-    if left_eye.visibility < 0.5 and right_eye.visibility < 0.5:
-        return None
 
     # Start heuristic calculations
     score = 100
