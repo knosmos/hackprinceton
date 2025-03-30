@@ -1,8 +1,9 @@
 
 import cv2
-from flask import Flask, Response, render_template, jsonify
+from flask import Flask, Response, render_template, jsonify, send_file
 from display_logic import PostureTracker
 from stream import generate_frames
+import os
 
 cap = cv2.VideoCapture(0)
 
@@ -23,10 +24,10 @@ def step():
 
 @app.route('/graph')
 def graph():
-    img = tracker.plot_scores()
-    if img is None:
+    image_path = tracker.plot_scores()
+    if image_path is None:
         return "No data available", 404
-    return Response(img, mimetype='image/png')
+    return send_file(image_path, mimetype='image/png')
 
 
 @app.route('/since_sleep')
@@ -52,4 +53,10 @@ def index():
 
 
 if __name__ == '__main__':
+    # Remove all saved images
+    for file_name in os.listdir("static"):
+        file_path = os.path.join("static", file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+    
     app.run(debug=True, use_reloader=False)

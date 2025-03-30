@@ -1,8 +1,10 @@
 import time
+import matplotlib
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 from posture_detection.calculate_posture import calculate_posture_values
 from ui.connect import write_num, reconnect
-from io import BytesIO
 
 # Constants
 DISPLAY_SLEEP = 1
@@ -97,12 +99,11 @@ class PostureTracker:
 
         plt.title('Recent Posture Scores')
 
-        # BytesIO buffer
-        buf = BytesIO()
-        plt.savefig(buf, format='png')
+        # Save the plot to a file
+        image_path = 'static/plot.png'
+        plt.savefig(image_path, format='png')
         plt.close()
-        buf.seek(0)
-        return buf.getvalue()
+        return image_path
 
     def since_sleep(self):
         return time.time() - self.time_at_last_away
