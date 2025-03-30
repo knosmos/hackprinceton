@@ -14,7 +14,7 @@ def show_posture_live():
         posture_heuristic = calculate_posture_values(frame)
 
         if posture_heuristic:
-            cv2.putText(frame, f"Posture: {posture_heuristic["score"]:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            cv2.putText(frame, f"posture: {posture_heuristic["score"]:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             cv2.putText(frame, f"shoulder_angle: {posture_heuristic["shoulder_angle"]:.2f}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             cv2.putText(frame, f"head_tilt_angle: {posture_heuristic["head_tilt_angle"]:.2f}", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             cv2.putText(frame, f"neck_tilt_angle: {posture_heuristic["neck_tilt_angle"]:.2f}", (10, 120), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)

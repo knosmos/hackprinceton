@@ -84,9 +84,6 @@
           .then(response => response.json())
           .then(data => {
             let statusText = `Status: ${data.status}`;
-            if (data.score !== null) {
-              statusText += `\nScore: ${data.score}`;
-            }
             document.getElementById('posture-status').innerText = statusText;
           })
           .catch(error => console.error('Error:', error));
