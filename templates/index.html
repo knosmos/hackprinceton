@@ -2,10 +2,14 @@
 <html>
   <head>
     <title>Posture Monitor Live Stream</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <style>
       body {
-        background: #f0f2f5;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background: #d5d9e0;
+        font-family: 'Lexend', sans-serif;
+        color: #0e0e0e;
         margin: 0;
         padding: 5px;
         display: flex;
@@ -13,7 +17,8 @@
         align-items: center;
       }
       h1 {
-        color: #333;
+        color: #020d6b;
+        font-family: 'Space Grotesk', sans-serif;
         margin-bottom: 25px;
       }
       .grid-container {
@@ -26,7 +31,7 @@
       .box {
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         padding: 5px;
         display: flex;
         flex-direction: column;
@@ -40,12 +45,12 @@
       img {
         max-width: 100%;
         max-height: 100%;
-        border-radius: 8px;
+        border-radius: 10px;
         object-fit: cover;
       }
       #posture-status, #since-sleep {
         font-size: 1.2em;
-        color: #555;
+        color: #232323;
         text-align: center;
       }
       /* Make the video stream span two rows */
